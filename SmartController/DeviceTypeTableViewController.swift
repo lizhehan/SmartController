@@ -1,5 +1,5 @@
 //
-//  ChooseDeviceTypeTableViewController.swift
+//  DeviceTypeTableViewController.swift
 //  SmartController
 //
 //  Created by 李哲翰 on 2021/5/21.
