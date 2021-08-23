@@ -67,6 +67,7 @@
                     </refreshControl>
                     <connections>
                         <segue destination="9Oj-fp-Mkh" kind="show" identifier="DeviceTypeSegue" id="oba-Ap-5mH"/>
+                        <segue destination="UPt-9D-IAf" kind="show" identifier="SmartSocketSegue" id="cPJ-0b-uTk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGV-i3-gk5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -572,12 +573,19 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="3zi-BI-efK"/>
+                    <connections>
+                        <segue destination="oa0-gt-nyK" kind="unwind" identifier="unwindToSmartSocketSegue" unwindAction="unwindToSmartSocketWithSegue:" id="xO3-u8-fVl"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9YU-Cn-cmp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="oa0-gt-nyK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1797" y="86"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="cPJ-0b-uTk"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

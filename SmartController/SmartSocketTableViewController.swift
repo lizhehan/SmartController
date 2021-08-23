@@ -68,8 +68,11 @@ class SmartSocketTableViewController: UITableViewController {
             peripheral?.discoverServices(nil)
         }
     }
-    var notifyCharacteristic: CBCharacteristic?
+    var readCharacteristic: CBCharacteristic?
+    var writeWithoutResponseCharacteristic: CBCharacteristic?
     var writeCharacteristic: CBCharacteristic?
+    var notifyCharacteristic: CBCharacteristic?
+    var indicateCharacteristic: CBCharacteristic?
     
     var numberOfSockets = 0
     var onHours = 0
@@ -99,6 +102,16 @@ class SmartSocketTableViewController: UITableViewController {
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         updateNumberOfRepeatTimesView()
+    }
+    
+    @IBAction func unwindToSmartSocket(segue: UIStoryboardSegue) {
+        guard segue.identifier == "unwindToSmartSocketSegue" else { return }
+        let numberTableViewController = segue.source as! NumberTableViewController
+        if let selectedIndex = numberTableViewController.selectedIndex {
+            numberOfSockets = selectedIndex
+            updateNumberOfSocketsView()
+            writeNumberOfSockets()
+        }
     }
     
     // MARK: - Update view
@@ -256,7 +269,6 @@ class SmartSocketTableViewController: UITableViewController {
         if segue.identifier == "NumberSegue" {
             let numberTableViewController = segue.destination as! NumberTableViewController
             numberTableViewController.title = "路数"
-            numberTableViewController.delegate = self
             numberTableViewController.numbers = [0, 1, 2, 3, 4]
             numberTableViewController.selectedIndex = numberOfSockets
         }
@@ -321,41 +333,46 @@ extension SmartSocketTableViewController {
     }
     
     func write(_ command: String) {
-        guard let peripheral = peripheral, let characteristic = writeCharacteristic, let data = command.data(using: .utf8) else { return }
-        print("Write: command = \(command), dataCount = \(data.count)")
+        guard let peripheral = peripheral, let characteristic = writeWithoutResponseCharacteristic, let data = command.data(using: .utf8) else { return }
+        print("Write: CharacteristicUUID = \(characteristic.uuid.uuidString), command = \(command), dataCount = \(data.count)")
         commandLabel.text = command
         if data.count > 18 {
             let num = data.count / 18 + data.count % 18 == 0 ? 0 : 1
             for i in 0..<num {
                 let subdata = i == num - 1 ? data.subdata(in: i * 18..<data.count) : data.subdata(in: i * 18..<(i + 1) * 18)
-                peripheral.writeValue(subdata, for: characteristic, type: .withResponse)
+                peripheral.writeValue(subdata, for: characteristic, type: .withoutResponse)
             }
         } else {
-            peripheral.writeValue(data, for: characteristic, type: .withResponse)
+            peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
         }
     }
 }
 
 extension SmartSocketTableViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        guard let services = peripheral.services else { return }
-        for service in services {
+        peripheral.services?.forEach { service in
             print("Service: uuid = \(service.uuid.uuidString)")
             peripheral.discoverCharacteristics(nil, for: service)
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        guard let characteristics = service.characteristics else { return }
-        for characteristic in characteristics {
+        service.characteristics?.forEach { characteristic in
             print("Characteristic: uuid = \(characteristic.uuid.uuidString), properties = \(characteristic.properties)")
-            switch characteristic.properties {
-            case .notify:
-                notifyCharacteristic = characteristic
-            case .write, .writeWithoutResponse:
+            if characteristic.properties.contains(.read) {
+                readCharacteristic = characteristic
+            }
+            if characteristic.properties.contains(.writeWithoutResponse) {
+                writeWithoutResponseCharacteristic = characteristic
+            }
+            if characteristic.properties.contains(.write) {
                 writeCharacteristic = characteristic
-            default:
-                break
+            }
+            if characteristic.properties.contains(.notify) {
+                notifyCharacteristic = characteristic
+            }
+            if characteristic.properties.contains(.indicate) {
+                indicateCharacteristic = characteristic
             }
         }
         if let notifyCharacteristic = notifyCharacteristic {
@@ -381,14 +398,6 @@ extension SmartSocketTableViewController: CBPeripheralDelegate {
     }
 }
 
-extension SmartSocketTableViewController: NumberTableViewControllerDelegate {
-    func didSelect(index: Int) {
-        numberOfSockets = index
-        updateNumberOfSocketsView()
-        writeNumberOfSockets()
-    }
-}
-
 extension SmartSocketTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 3
@@ -397,7 +406,7 @@ extension SmartSocketTableViewController: UIPickerViewDelegate, UIPickerViewData
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
-            return 25
+            return 24
         case 1, 2:
             return 60
         default:

@@ -15,6 +15,8 @@ class DevicesTableViewController: UITableViewController {
     var peripherals = [CBPeripheral]()
     var localNames = [String]()
     var connectedPeripheral: CBPeripheral?
+    
+    let isSelectDeviceType = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +66,9 @@ class DevicesTableViewController: UITableViewController {
         if segue.identifier == "DeviceTypeSegue" {
             let deviceTypeTableViewController = segue.destination as! DeviceTypeTableViewController
             deviceTypeTableViewController.peripheral = connectedPeripheral
+        } else if segue.identifier == "SmartSocketSegue" {
+            let smartSocketTableViewController = segue.destination as! SmartSocketTableViewController
+            smartSocketTableViewController.peripheral = connectedPeripheral
         }
     }
 }
@@ -86,7 +91,7 @@ extension DevicesTableViewController {
     }
     
     func connect(peripheral: CBPeripheral) {
-        presentLoading(title: "正在连接设备...")
+        presentLoading(title: "正在连接设备…")
         cancelPeripheralConnection()
         centralManager?.connect(peripheral)
     }
@@ -111,7 +116,7 @@ extension DevicesTableViewController: CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        if let localName = advertisementData["kCBAdvDataLocalName"] as? String, !peripherals.contains(where: { $0.identifier == peripheral.identifier }) {
+        if let localName = advertisementData[CBAdvertisementDataLocalNameKey] as? String, !peripherals.contains(where: { $0.identifier == peripheral.identifier }) {
             peripherals.append(peripheral)
             localNames.append(localName)
             tableView.insertRows(at: [IndexPath(row: localNames.count - 1, section: 0)], with: .automatic)
@@ -122,7 +127,7 @@ extension DevicesTableViewController: CBCentralManagerDelegate {
         stopScan()
         connectedPeripheral = peripheral
         dismissLoading() {
-            self.performSegue(withIdentifier: "DeviceTypeSegue", sender: self)
+            self.performSegue(withIdentifier: self.isSelectDeviceType ? "DeviceTypeSegue" : "SmartSocketSegue", sender: self)
         }
     }
     

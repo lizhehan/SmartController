@@ -7,15 +7,10 @@
 
 import UIKit
 
-protocol NumberTableViewControllerDelegate: AnyObject {
-   func didSelect(index: Int)
-}
-
 class NumberTableViewController: UITableViewController {
     
     var numbers = [Int]()
     var selectedIndex: Int?
-    weak var delegate: NumberTableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +42,7 @@ class NumberTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedIndex = numbers[indexPath.row]
-        delegate?.didSelect(index: selectedIndex!)
-        tableView.reloadData()
-        navigationController?.popViewController(animated: true)
+        performSegue(withIdentifier: "unwindToSmartSocketSegue", sender: self)
     }
 
     /*
