@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,9 +14,11 @@
 		CB114DFB2657A67E00136946 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB114DF92657A67E00136946 /* LaunchScreen.storyboard */; };
 		CB114E032657A98A00136946 /* DevicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB114E022657A98A00136946 /* DevicesTableViewController.swift */; };
 		CB114E072657B67A00136946 /* DeviceTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB114E062657B67A00136946 /* DeviceTypeTableViewController.swift */; };
+		CB1E1EBC27216BC8001EEDA4 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB1E1EBB27216BC8001EEDA4 /* IQKeyboardManagerSwift */; };
 		CB8E16B52657EB4E00FE0035 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */; };
 		CB8E16B7265802A500FE0035 /* SmartSocketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */; };
 		CB8E16B9265809D700FE0035 /* NumberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */; };
+		CBAC7F7927211A6200E138C1 /* SmartFileTransferTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,7 @@
 		CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSocketTableViewController.swift; sourceTree = "<group>"; };
 		CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTableViewController.swift; sourceTree = "<group>"; };
+		CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFileTransferTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB1E1EBC27216BC8001EEDA4 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +79,7 @@
 				CB114E062657B67A00136946 /* DeviceTypeTableViewController.swift */,
 				CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */,
 				CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */,
+				CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */,
 			);
 			path = SmartController;
 			sourceTree = "<group>";
@@ -95,6 +100,9 @@
 			dependencies = (
 			);
 			name = SmartController;
+			packageProductDependencies = (
+				CB1E1EBB27216BC8001EEDA4 /* IQKeyboardManagerSwift */,
+			);
 			productName = SmartController;
 			productReference = CB114DEB2657A67B00136946 /* SmartController.app */;
 			productType = "com.apple.product-type.application";
@@ -122,6 +130,9 @@
 				Base,
 			);
 			mainGroup = CB114DE22657A67B00136946;
+			packageReferences = (
+				CB1E1EBA27216BC8001EEDA4 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = CB114DEC2657A67B00136946 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -149,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBAC7F7927211A6200E138C1 /* SmartFileTransferTableViewController.swift in Sources */,
 				CB114E072657B67A00136946 /* DeviceTypeTableViewController.swift in Sources */,
 				CB8E16B9265809D700FE0035 /* NumberTableViewController.swift in Sources */,
 				CB114DEF2657A67B00136946 /* AppDelegate.swift in Sources */,
@@ -357,6 +369,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB1E1EBA27216BC8001EEDA4 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB1E1EBB27216BC8001EEDA4 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB1E1EBA27216BC8001EEDA4 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CB114DE32657A67B00136946 /* Project object */;
 }

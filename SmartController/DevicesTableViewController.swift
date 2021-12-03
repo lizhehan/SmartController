@@ -15,8 +15,6 @@ class DevicesTableViewController: UITableViewController {
     var peripherals = [CBPeripheral]()
     var localNames = [String]()
     var connectedPeripheral: CBPeripheral?
-    
-    let isSelectDeviceType = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +125,7 @@ extension DevicesTableViewController: CBCentralManagerDelegate {
         stopScan()
         connectedPeripheral = peripheral
         dismissLoading() {
-            self.performSegue(withIdentifier: self.isSelectDeviceType ? "DeviceTypeSegue" : "SmartSocketSegue", sender: self)
+            self.performSegue(withIdentifier: "DeviceTypeSegue", sender: self)
         }
     }
     

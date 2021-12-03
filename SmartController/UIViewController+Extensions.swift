@@ -17,10 +17,11 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
-    func presentTextFieldAlertController(title: String? = nil, message: String? = nil, text: String? = nil, okActionTitle: String = "好", cancelActionTitle: String = "取消", okHandler: ((UIAlertAction, String?) -> Void)? = nil, cancelHandler: ((UIAlertAction) -> Void)? = nil) {
+    func presentTextFieldAlertController(title: String? = nil, message: String? = nil, text: String? = nil, placeholder: String? = nil, okActionTitle: String = "好", cancelActionTitle: String = "取消", okHandler: ((UIAlertAction, String?) -> Void)? = nil, cancelHandler: ((UIAlertAction) -> Void)? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addTextField { textField in
             textField.text = text
+            textField.placeholder = placeholder
         }
         let okAction = UIAlertAction (title: okActionTitle , style: .default) { alertAction in
             let textField = alertController.textFields![0] as UITextField
