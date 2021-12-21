@@ -15,6 +15,7 @@
 		CB114E032657A98A00136946 /* DevicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB114E022657A98A00136946 /* DevicesTableViewController.swift */; };
 		CB114E072657B67A00136946 /* DeviceTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB114E062657B67A00136946 /* DeviceTypeTableViewController.swift */; };
 		CB1E1EBC27216BC8001EEDA4 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB1E1EBB27216BC8001EEDA4 /* IQKeyboardManagerSwift */; };
+		CB4FEBD827702FC500E5F805 /* SmartFindThingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4FEBD727702FC500E5F805 /* SmartFindThingTableViewController.swift */; };
 		CB8E16B52657EB4E00FE0035 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */; };
 		CB8E16B7265802A500FE0035 /* SmartSocketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */; };
 		CB8E16B9265809D700FE0035 /* NumberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */; };
@@ -31,6 +32,7 @@
 		CB114DFC2657A67E00136946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB114E022657A98A00136946 /* DevicesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesTableViewController.swift; sourceTree = "<group>"; };
 		CB114E062657B67A00136946 /* DeviceTypeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTypeTableViewController.swift; sourceTree = "<group>"; };
+		CB4FEBD727702FC500E5F805 /* SmartFindThingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFindThingTableViewController.swift; sourceTree = "<group>"; };
 		CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSocketTableViewController.swift; sourceTree = "<group>"; };
 		CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTableViewController.swift; sourceTree = "<group>"; };
@@ -75,11 +77,12 @@
 				CB114DF92657A67E00136946 /* LaunchScreen.storyboard */,
 				CB114DFC2657A67E00136946 /* Info.plist */,
 				CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */,
+				CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */,
 				CB114E022657A98A00136946 /* DevicesTableViewController.swift */,
 				CB114E062657B67A00136946 /* DeviceTypeTableViewController.swift */,
 				CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */,
-				CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */,
 				CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */,
+				CB4FEBD727702FC500E5F805 /* SmartFindThingTableViewController.swift */,
 			);
 			path = SmartController;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			files = (
 				CBAC7F7927211A6200E138C1 /* SmartFileTransferTableViewController.swift in Sources */,
 				CB114E072657B67A00136946 /* DeviceTypeTableViewController.swift in Sources */,
+				CB4FEBD827702FC500E5F805 /* SmartFindThingTableViewController.swift in Sources */,
 				CB8E16B9265809D700FE0035 /* NumberTableViewController.swift in Sources */,
 				CB114DEF2657A67B00136946 /* AppDelegate.swift in Sources */,
 				CB114E032657A98A00136946 /* DevicesTableViewController.swift in Sources */,
