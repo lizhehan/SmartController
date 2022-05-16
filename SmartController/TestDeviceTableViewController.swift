@@ -1,31 +1,19 @@
 //
-//  SmartFindThingTableViewController.swift
+//  TestDeviceTableViewController.swift
 //  SmartController
 //
-//  Created by 李哲翰 on 2021/12/20.
+//  Created by 李哲翰 on 2022/5/16.
 //
 
 import UIKit
 import CoreBluetooth
-import Foundation
 
-class SmartFindThingTableViewController: UITableViewController {
+class TestDeviceTableViewController: UITableViewController {
+
+    @IBOutlet weak var commandTextField: UITextField!
+    @IBOutlet weak var commandLabel: UILabel!
     
-    @IBOutlet weak var aLabel: UILabel!
-    @IBOutlet weak var aStepper: UIStepper! {
-        didSet {
-            aStepper.value = 59
-        }
-    }
-    @IBOutlet weak var nLabel: UILabel!
-    @IBOutlet weak var nStepper: UIStepper! {
-        didSet {
-            nStepper.value = 2
-        }
-    }
-    @IBOutlet weak var rssiLabel: UILabel!
-    @IBOutlet weak var dLabel: UILabel!
-    @IBOutlet weak var warningLabel: UILabel!
+    let writeCommandLabelCellIndexPath = IndexPath(row: 1, section: 0)
     
     var peripheral: CBPeripheral? {
         didSet {
@@ -38,12 +26,6 @@ class SmartFindThingTableViewController: UITableViewController {
     var writeCharacteristic: CBCharacteristic?
     var notifyCharacteristic: CBCharacteristic?
     var indicateCharacteristic: CBCharacteristic?
-    
-    var timer: Timer!
-    
-    var RSSI: Int = 0
-    var A: Int = 59
-    var n: Double = 2
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,54 +36,21 @@ class SmartFindThingTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        readRSSI()
-        timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(readRSSI), userInfo: nil, repeats: true)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        timer.invalidate()
-    }
-    
-    @IBAction func stepperValueChanged(_ sender: UIStepper) {
-        if sender == aStepper {
-            A = Int(sender.value)
-            aLabel.text = String(A)
-        } else if sender == nStepper {
-            n = sender.value
-            nLabel.text = String(format: "%.1f", n)
-        }
-        updateResultView()
-    }
-    
-    func updateResultView() {
-        let d = calculateDistance(RSSI: RSSI, A: A, n: n)
-        var warning = ""
-        if RSSI <= -80 {
-            warning = "安全距离"
-        } else if RSSI > -80 && RSSI <= -60 {
-            warning = "疑似距离"
-        } else if RSSI > -60 && RSSI <= -40 {
-            warning = "警示距离"
-        } else {
-            warning = "密切接触"
-        }
-        rssiLabel.text = "\(RSSI) dBm"
-        dLabel.text = "\(String(format: "%.2f", d)) m"
-        warningLabel.text = warning
-    }
 
-    // MARK: - Table view data source
-
+    // MARK: - Table view delegate
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath {
+        case writeCommandLabelCellIndexPath:
+            writeCommand()
+        default:
+            break
+        }
     }
 
     /*
@@ -116,22 +65,40 @@ class SmartFindThingTableViewController: UITableViewController {
 
 }
 
-extension SmartFindThingTableViewController {
-    @objc func readRSSI() {
-        peripheral?.readRSSI()
+extension TestDeviceTableViewController {
+    func writeCalibrationTime() {
+        let dateComponents = Calendar.current.dateComponents([.day, .hour, .minute, .second, .weekday], from: Date())
+        let day = dateComponents.day!
+        let hour = dateComponents.hour!
+        let minute = dateComponents.minute!
+        let second = dateComponents.second!
+        let weekday = dateComponents.weekday!
+        let week = weekday == 1 ? 7 : weekday - 1
+        let command = "clk\(day):\(week):\(hour):\(minute):\(second):"
+        write(command)
     }
     
-    func calculateDistance(RSSI: Int, A: Int, n: Double) -> Double {
-        return pow(10, Double(abs(RSSI) - A) / (10 * n))
+    func writeCommand() {
+        write(commandTextField.text ?? "")
+    }
+    
+    func write(_ command: String) {
+        guard let peripheral = peripheral, let characteristic = writeCharacteristic, let data = command.data(using: .utf8) else { return }
+        print("Write: CharacteristicUUID = \(characteristic.uuid.uuidString), command = \(command), dataCount = \(data.count)")
+        commandLabel.text = command
+        if data.count > 18 {
+            let num = data.count / 18 + data.count % 18 == 0 ? 0 : 1
+            for i in 0..<num {
+                let subdata = i == num - 1 ? data.subdata(in: i * 18..<data.count) : data.subdata(in: i * 18..<(i + 1) * 18)
+                peripheral.writeValue(subdata, for: characteristic, type: .withResponse)
+            }
+        } else {
+            peripheral.writeValue(data, for: characteristic, type: .withResponse)
+        }
     }
 }
 
-extension SmartFindThingTableViewController: CBPeripheralDelegate {
-    func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
-        self.RSSI = RSSI.intValue
-        updateResultView()
-    }
-    
+extension TestDeviceTableViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         peripheral.services?.forEach { service in
             print("Service: uuid = \(service.uuid.uuidString)")
@@ -161,6 +128,7 @@ extension SmartFindThingTableViewController: CBPeripheralDelegate {
         if let notifyCharacteristic = notifyCharacteristic {
             peripheral.setNotifyValue(true, for: notifyCharacteristic)
         }
+        writeCalibrationTime()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {

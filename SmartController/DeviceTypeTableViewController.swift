@@ -13,7 +13,7 @@ class DeviceTypeTableViewController: UITableViewController {
     var peripheral: CBPeripheral?
     
 //    let deviceTypes = ["智能插座", "智能闹钟", "智能隔空传文本", "智能点歌" , "智能日程", "智能遥控"]
-    let deviceTypes = ["智能插座", "智能寻物", "碰碰乐"]
+    let deviceTypes = ["智能插座", "智能寻物", "碰碰乐", "测试设备"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +46,8 @@ class DeviceTypeTableViewController: UITableViewController {
             performSegue(withIdentifier: "SmartFindThingSegue", sender: self)
         case 2:
             performSegue(withIdentifier: "SmartFileTransferSegue", sender: self)
+        case 3:
+            performSegue(withIdentifier: "TestDeviceSegue", sender: self)
         default:
             presentMessage(title: "该设备类型暂未支持") { _ in 
                 if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -67,6 +69,9 @@ class DeviceTypeTableViewController: UITableViewController {
         } else if segue.identifier == "SmartFileTransferSegue" {
             let smartFileTransferTableViewController = segue.destination as! SmartFileTransferTableViewController
             smartFileTransferTableViewController.peripheral = peripheral
+        } else if segue.identifier == "TestDeviceSegue" {
+            let testDeviceTableViewController = segue.destination as! TestDeviceTableViewController
+            testDeviceTableViewController.peripheral = peripheral
         }
     }
 
