@@ -13,7 +13,7 @@ class DeviceTypeTableViewController: UITableViewController {
     var peripheral: CBPeripheral?
     
 //    let deviceTypes = ["智能插座", "智能闹钟", "智能隔空传文本", "智能点歌" , "智能日程", "智能遥控"]
-    let deviceTypes = ["智能插座", "智能寻物", "碰碰乐", "测试设备"]
+    let deviceTypes = ["智能插座", "智能寻物", "碰碰乐", "测试设备", "智能插座（新芯片）"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +48,8 @@ class DeviceTypeTableViewController: UITableViewController {
             performSegue(withIdentifier: "SmartFileTransferSegue", sender: self)
         case 3:
             performSegue(withIdentifier: "TestDeviceSegue", sender: self)
+        case 4:
+            performSegue(withIdentifier: "SmartSocketSegue", sender: 1)
         default:
             presentMessage(title: "该设备类型暂未支持") { _ in 
                 if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -63,6 +65,9 @@ class DeviceTypeTableViewController: UITableViewController {
         if segue.identifier == "SmartSocketSegue" {
             let smartSocketTableViewController = segue.destination as! SmartSocketTableViewController
             smartSocketTableViewController.peripheral = peripheral
+            if sender as? Int == 1 {
+                smartSocketTableViewController.title = "智能插座（新芯片）"
+            }
         } else if segue.identifier == "SmartFindThingSegue" {
             let smartFindThingTableViewController = segue.destination as! SmartFindThingTableViewController
             smartFindThingTableViewController.peripheral = peripheral

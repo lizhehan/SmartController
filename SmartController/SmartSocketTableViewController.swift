@@ -271,6 +271,9 @@ class SmartSocketTableViewController: UITableViewController {
             numberTableViewController.title = "路数"
             numberTableViewController.numbers = [0, 1, 2, 3, 4]
             numberTableViewController.selectedIndex = numberOfSockets
+        } else if segue.identifier == "TestDeviceSegue" {
+            let testDeviceTableViewController = segue.destination as! TestDeviceTableViewController
+            testDeviceTableViewController.peripheral = peripheral
         }
     }
 }
