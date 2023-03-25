@@ -20,6 +20,7 @@
 		CB8E16B52657EB4E00FE0035 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */; };
 		CB8E16B7265802A500FE0035 /* SmartSocketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */; };
 		CB8E16B9265809D700FE0035 /* NumberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */; };
+		CB91E40629CD88C20000A28D /* BLEDistanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB91E40529CD88C20000A28D /* BLEDistanceTableViewController.swift */; };
 		CBAC7F7927211A6200E138C1 /* SmartFileTransferTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		CB8E16B42657EB4E00FE0035 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB8E16B6265802A500FE0035 /* SmartSocketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSocketTableViewController.swift; sourceTree = "<group>"; };
 		CB8E16B8265809D700FE0035 /* NumberTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTableViewController.swift; sourceTree = "<group>"; };
+		CB91E40529CD88C20000A28D /* BLEDistanceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDistanceTableViewController.swift; sourceTree = "<group>"; };
 		CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFileTransferTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				CBAC7F7827211A6200E138C1 /* SmartFileTransferTableViewController.swift */,
 				CB4FEBD727702FC500E5F805 /* SmartFindThingTableViewController.swift */,
 				CB0178C32831EDDE007639DD /* TestDeviceTableViewController.swift */,
+				CB91E40529CD88C20000A28D /* BLEDistanceTableViewController.swift */,
 			);
 			path = SmartController;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				CB8E16B52657EB4E00FE0035 /* UIViewController+Extensions.swift in Sources */,
 				CB0178C42831EDDE007639DD /* TestDeviceTableViewController.swift in Sources */,
 				CB8E16B7265802A500FE0035 /* SmartSocketTableViewController.swift in Sources */,
+				CB91E40629CD88C20000A28D /* BLEDistanceTableViewController.swift in Sources */,
 				CB114DF12657A67B00136946 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
