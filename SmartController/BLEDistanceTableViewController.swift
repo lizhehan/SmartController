@@ -8,11 +8,13 @@
 import UIKit
 import CoreBluetooth
 import Foundation
+import UniformTypeIdentifiers
 
 class BLEDistanceTableViewController: UITableViewController {
     
     @IBOutlet weak var aLabel: UILabel!
     @IBOutlet weak var nLabel: UILabel!
+    @IBOutlet weak var modelLabel: UILabel!
     @IBOutlet weak var k1Label: UILabel!
     @IBOutlet weak var k2Label: UILabel!
     @IBOutlet weak var k3Label: UILabel!
@@ -22,6 +24,13 @@ class BLEDistanceTableViewController: UITableViewController {
     @IBOutlet weak var d2Label: UILabel!
     @IBOutlet weak var realDistanceLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var deviceCountLabel: UILabel!
+    @IBOutlet weak var device1Label: UILabel!
+    @IBOutlet weak var realDistance1Label: UILabel!
+    @IBOutlet weak var device2Label: UILabel!
+    @IBOutlet weak var realDistance2Label: UILabel!
+    @IBOutlet weak var device3Label: UILabel!
+    @IBOutlet weak var realDistance3Label: UILabel!
     
     var peripheral: CBPeripheral? {
         didSet {
@@ -90,37 +99,89 @@ class BLEDistanceTableViewController: UITableViewController {
                 self.updateView()
             }
         case IndexPath(row: 0, section: 2):
+            let alertController = UIAlertController(title: "室内测距模型", message: nil, preferredStyle: .actionSheet)
+            let firstAlertAction = UIAlertAction(title: "B3栋5楼" , style: .default) { action in
+                self.modelLabel.text = "模型1"
+            }
+            let secondAlertAction = UIAlertAction(title: "B3栋4楼", style: .default) { action in
+                self.modelLabel.text = "模型2"
+            }
+            let cancelAlertAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let destructiveAlertAction = UIAlertAction(title: "无", style: .destructive) { action in
+                self.modelLabel.text = "无"
+            }
+            alertController.addAction(firstAlertAction)
+            alertController.addAction(secondAlertAction)
+            alertController.addAction(cancelAlertAction)
+            alertController.addAction(destructiveAlertAction)
+            present(alertController, animated: true)
+        case IndexPath(row: 1, section: 2):
+            let documentPicker = UIDocumentPickerViewController(documentTypes: [String("public.data")], in: .import)
+            documentPicker.delegate = self
+            present(documentPicker, animated: true)
+        case IndexPath(row: 2, section: 2):
+            self.modelLabel.text = "无"
+        case IndexPath(row: 0, section: 3):
             presentTextFieldAlertController(title: "k1（均值滤波系数）", text: String(k1)) { _, text in
                 self.k1 = Double(text ?? "0") ?? 0
                 self.updateView()
             }
-        case IndexPath(row: 1, section: 2):
+        case IndexPath(row: 1, section: 3):
             presentTextFieldAlertController(title: "k2（中值滤波系数）", text: String(k2)) { _, text in
                 self.k2 = Double(text ?? "0") ?? 0
                 self.updateView()
             }
-        case IndexPath(row: 2, section: 2):
+        case IndexPath(row: 2, section: 3):
             presentTextFieldAlertController(title: "k3（卡尔曼滤波系数）", text: String(k3)) { _, text in
                 self.k3 = Double(text ?? "0") ?? 0
                 self.updateView()
             }
-        case IndexPath(row: 3, section: 2):
+        case IndexPath(row: 3, section: 3):
             presentTextFieldAlertController(title: "k4（高斯滤系数）", text: String(k4)) { _, text in
                 self.k4 = Double(text ?? "0") ?? 0
                 self.updateView()
             }
-        case IndexPath(row: 0, section: 4):
+        case IndexPath(row: 0, section: 5):
             presentTextFieldAlertController(title: "真实距离", text: String(realDistance)) { _, text in
                 self.realDistance = Double(text ?? "0") ?? 0
                 self.updateView()
             }
-        case IndexPath(row: 1, section: 4):
+        case IndexPath(row: 1, section: 5):
             presentTextFieldAlertController(title: "读取时长", text: String(time)) { _, text in
                 self.time = Double(text ?? "0") ?? 0
                 self.updateView()
             }
-        case IndexPath(row: 2, section: 4):
+        case IndexPath(row: 2, section: 5):
             export()
+        case IndexPath(row: 0, section: 6):
+            presentTextFieldAlertController(title: "设备数") { _, text in
+                self.deviceCountLabel.text = text
+            }
+        case IndexPath(row: 1, section: 6):
+            presentTextFieldAlertController(title: "设备1") { _, text in
+                self.device1Label.text = text
+            }
+        case IndexPath(row: 2, section: 6):
+            presentTextFieldAlertController(title: "真实距离", text: String(realDistance)) { _, text in
+                self.realDistance = Double(text ?? "0") ?? 0
+                self.updateView()
+            }
+        case IndexPath(row: 3, section: 6):
+            presentTextFieldAlertController(title: "设备2") { _, text in
+                self.device2Label.text = text
+            }
+        case IndexPath(row: 4, section: 6):
+            presentTextFieldAlertController(title: "真实距离") { _, text in
+                self.realDistance2Label.text = "\(text ?? "0") m"
+            }
+        case IndexPath(row: 5, section: 6):
+            presentTextFieldAlertController(title: "设备3") { _, text in
+                self.device3Label.text = text
+            }
+        case IndexPath(row: 6, section: 6):
+            presentTextFieldAlertController(title: "真实距离") { _, text in
+                self.realDistance2Label.text = "\(text ?? "0") m"
+            }
         default:
             break
         }
@@ -263,5 +324,11 @@ extension BLEDistanceTableViewController: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         
+    }
+}
+
+extension BLEDistanceTableViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        self.modelLabel.text = "已导入"
     }
 }
