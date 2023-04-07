@@ -101,10 +101,10 @@ class BLEDistanceTableViewController: UITableViewController {
         case IndexPath(row: 0, section: 2):
             let alertController = UIAlertController(title: "室内测距模型", message: nil, preferredStyle: .actionSheet)
             let firstAlertAction = UIAlertAction(title: "B3栋5楼" , style: .default) { action in
-                self.modelLabel.text = "模型1"
+                self.modelLabel.text = "B3栋5楼"
             }
             let secondAlertAction = UIAlertAction(title: "B3栋4楼", style: .default) { action in
-                self.modelLabel.text = "模型2"
+                self.modelLabel.text = "B3栋4楼"
             }
             let cancelAlertAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
             let destructiveAlertAction = UIAlertAction(title: "无", style: .destructive) { action in
